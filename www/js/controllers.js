@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('interact-images.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -52,5 +52,50 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('PlaylistCtrl', function($scope, $stateParams, ImagePicker)
+{
+})
+
+.controller('BrowseCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup)
+{
+    var vm = $scope.vm = { images: [] };
+    var imgMap = function(d)
+    {
+        d.src = 'data:image/jpeg;base64,' + d.src;
+        return d;
+    };
+    
+    vm.getImages = function()
+    {
+        ImagePicker.Pick(function(d)
+        {
+            d.selected = false;
+            vm.images.push(imgMap(d));
+        });
+    };
+    
+    vm.remove = function(i)
+    {
+        vm.images.splice(i, 1);
+    };
+    
+    vm.show = function(i)
+    {
+        var image = vm.images[i];
+        $ionicPopup.show({
+            template: '<img width="100%" height="100%" src="' + image.src + '">',
+            title: '',
+            subTitle: '',
+            scope: $scope,
+            buttons: [
+              {
+                text: '<b>Cerrar</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                  
+                }
+              }
+            ]
+        });
+    };
 });

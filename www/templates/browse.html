@@ -1,5 +1,25 @@
-<ion-view view-title="Browse">
-  <ion-content>
-    <h1>Browse</h1>
-  </ion-content>
+<ion-view view-title="Carga de imágenes">
+    <ion-content>    
+        <div class="row">
+            <div class="col text-center">
+                <button class="button button-positive" ng-click="vm.getImages()">Agregar imagen</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list">
+                    <div class="item" ng-repeat="image in vm.images">
+                        <div class="pull-left">
+                            <img class="rounded" ng-click="vm.show($index)" width="50" height="50" ng-src="{{ image.thumbnail }}">
+                        </div>
+                        <div class="pull-right">
+                            <button class="button rounded" ng-click="vm.remove($index);">
+                                <i class="ion-trash-a"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

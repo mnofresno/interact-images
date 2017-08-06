@@ -21,3 +21,19 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.rounded {
+	border-radius: 50%;
+	vertical-align: middle;
+}
+
+.pull-left {
+	display: inline-block;
+    text-align: left;
+    width: 49%;
+}
+
+.pull-right {
+	display: inline-block;
+    text-align: right;
+    width: 49%;
+}
