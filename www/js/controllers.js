@@ -98,9 +98,7 @@ angular.module('interact-images.controllers', [])
               {
                 text: '<b>Cerrar</b>',
                 type: 'button-positive',
-                onTap: function(e) {
-                  
-                }
+                onTap: function(e) {}
               }
             ]
         });
@@ -109,6 +107,26 @@ angular.module('interact-images.controllers', [])
     vm.save = function()
     {
         Storage.set('images', vm.images);
+    };
+    
+    vm.editDescription = function(i)
+    {
+        vm.currentDescription = '';
+        $ionicPopup.show({
+            template: '<input type="text" ng-model="vm.currentDescription" autofocus/>',
+            title: 'Descripción',
+            subTitle: '¿Qué es ésta imagen?',
+            scope: $scope,
+            buttons: [
+              {
+                text: '<b>Aceptar</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                    vm.images[i].description = vm.currentDescription;
+                }
+              }
+            ]
+        });
     };
     
     init();

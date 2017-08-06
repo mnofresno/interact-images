@@ -21,7 +21,7 @@ angular.module('interact-images.services', [])
         {
             return self.imageResize(imageURI, 50).then(function(thumbnailURI)
             {
-                callback({ src: imageHeader + imageURI, thumbnail: thumbnailURI });
+                callback({ src: imageHeader + imageURI, thumbnail: thumbnailURI, description: '' });
             });
         });
     };
