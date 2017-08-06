@@ -7,7 +7,8 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "ng-lodash": "^0.5.0",
-    "ngCordova": "^0.1.27-alpha"
+    "ngCordova": "^0.1.27-alpha",
+    "angular-local-storage": "^0.7.1"
   },
   "resolutions": {
     "angular": "1.5.3"

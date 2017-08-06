@@ -56,13 +56,20 @@ angular.module('interact-images.controllers', [])
 {
 })
 
-.controller('BrowseCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup)
+.controller('BrowseCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup, Storage)
 {
     var vm = $scope.vm = { images: [] };
-    var imgMap = function(d)
+    
+    var init = function()
     {
-        d.src = 'data:image/jpeg;base64,' + d.src;
-        return d;
+        if(Storage.has('images'))
+        {
+            vm.images = Storage.get('images');
+        }
+        else
+        {
+            Storage.set('images', vm.images);
+        }
     };
     
     vm.getImages = function()
@@ -70,7 +77,7 @@ angular.module('interact-images.controllers', [])
         ImagePicker.Pick(function(d)
         {
             d.selected = false;
-            vm.images.push(imgMap(d));
+            vm.images.push(d);
         });
     };
     
@@ -98,4 +105,11 @@ angular.module('interact-images.controllers', [])
             ]
         });
     };
+    
+    vm.save = function()
+    {
+        Storage.set('images', vm.images);
+    };
+    
+    init();
 });

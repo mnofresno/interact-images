@@ -1,5 +1,5 @@
 <ion-view view-title="Carga de imágenes">
-    <ion-content>    
+    <ion-content has-footer="true">    
         <div class="row">
             <div class="col text-center">
                 <button class="button button-positive" ng-click="vm.getImages()">Agregar imagen</button>
@@ -19,6 +19,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button class="small button button-positive" ng-click="vm.save()">
+                    Guardar <i class="ion-ios-download"></i>
+                </button>
             </div>
         </div>
     </ion-content>

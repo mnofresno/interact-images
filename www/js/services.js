@@ -4,6 +4,7 @@ angular.module('interact-images.services', [])
 {
     var errorMessage = "ERROR: Image picker not found";
     var self = this;
+    var imageHeader = 'data:image/jpeg;base64,';
            
     self.Pick = function(callback, error)
     {
@@ -20,7 +21,7 @@ angular.module('interact-images.services', [])
         {
             return self.imageResize(imageURI, 50).then(function(thumbnailURI)
             {
-                callback({ src: imageURI, thumbnail: thumbnailURI });
+                callback({ src: imageHeader + imageURI, thumbnail: thumbnailURI });
             });
         });
     };
@@ -35,7 +36,7 @@ angular.module('interact-images.services', [])
             deferred.resolve(self.imageToUri(this, width, img.naturalHeight / img.naturalWidth * width));        
         };
         
-        img.src = 'data:image/jpeg;base64,' + imageURI;
+        img.src = imageHeader + imageURI;
 
         return deferred.promise;
     };
@@ -57,4 +58,28 @@ angular.module('interact-images.services', [])
     };
     
     return self;    
+})
+
+.service('Storage', function(localStorageService)
+{   
+    var self = this;
+    
+    self.set = function(key, data)
+    {
+        localStorageService.set(key, data);
+    };
+    
+    self.get = function(key)
+    {
+        return localStorageService.get(key);
+    };
+    
+    self.has = function(key)
+    {
+        var data = self.get(key);
+        
+        return data !== null && data !== undefined;
+    };
+    
+    return self;
 });
