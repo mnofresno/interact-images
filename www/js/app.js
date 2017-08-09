@@ -77,6 +77,17 @@ angular.module('interact-images', ['ionic', 'ngCordova', 'ngLodash', 'LocalStora
         controller: 'PlaylistCtrl'
       }
     }
+  })
+  
+  .state('app.categories', {
+    url: '/categories',
+    views: {
+        'menuContent':{
+            templateUrl: 'templates/categories.html',
+            controller: 'CategoriesCtrl',
+            controllerAs: 'categories'
+        }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');

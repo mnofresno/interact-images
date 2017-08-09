@@ -130,4 +130,60 @@ angular.module('interact-images.controllers', [])
     };
     
     init();
+})
+
+.controller('CategoriesCtrl', function(Categorias)
+{
+    var self = this;
+    
+    self.items = []
+    self.editingItem = null;
+    
+    self.update = function()
+    {
+        Categorias.list(function(d)
+        {
+            self.items = d;
+        });
+    };
+    
+    self.update();
+    
+    self.create = function()
+    {
+        self.editingItem = new Categorias.Resource();
+    };
+    
+    self.edit = function(item)
+    {
+        Categorias.find(item.id, function(d)
+        {
+            self.editingItem = d;
+        });
+    };
+    
+    self.delete = function(item)
+    {
+        Categorias.delete(item.id, function()
+        {
+            self.editingItem = null;
+            self.update();
+        });
+    };
+    
+    self.save = function()
+    {
+        Categorias.store(self.editingItem, function()
+        {
+            self.update();
+            self.cancel();
+        });
+    };
+    
+    self.cancel = function()
+    {
+        self.editingItem = null;
+    };
+   
+    return self;
 });

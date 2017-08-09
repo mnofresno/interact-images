@@ -1,0 +1,67 @@
+<ion-view view-title="Editar Categorías">
+    <ion-content>
+        <div class="row" ng-show="categories.editingItem === null">
+            <div class="col">
+                <div class="row">
+                    <div class="col text-center">
+                        <button ng-click="categories.create()" class="button button-positive">
+                            <i class="ion-plus-round"></i>
+                            <span>Agregar Categor&iacute;a</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <ion-list>
+                          <ion-item ng-repeat="item in categories.items track by item.id">
+                            <span>{{ item.description }}</span>
+                            <span class="pull-right">
+                                <button ng-click="categories.edit(item)" class="button button-balanced">
+                                    <i class="ion-edit"></i>
+                                </button>
+                                <button ng-click="categories.delete(item)" class="button button-assertive">
+                                    <i class="ion-trash-a"></i>
+                                </button>
+                            </span>
+                          </ion-item>
+                        </ion-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="categories.editingItem !== null">
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col">
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">Categor&iacute;a</span>
+                                <input ng-model="categories.editingItem.description"  type="text" placeholder="Categor&iacute;a">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-33">
+                        <button ng-click="categories.save()" class="button button-positive">
+                            <i class="ion-ios-download"></i>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                    <div class="col col-33">
+                        <button ng-click="categories.delete(categories.editingItem)" ng-show="categories.editingItem.id" class="button button-assertive">
+                            <i class="ion-trash-a"></i>
+                            <span>Eliminar</span>
+                        </button>
+                    </div>
+                    <div class="col col-33">
+                        <button ng-click="categories.cancel()" class="button button-stable">
+                            <i class="ion-android-cancel"></i>
+                            <span>Cancelar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

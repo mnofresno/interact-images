@@ -82,4 +82,81 @@ angular.module('interact-images.services', [])
     };
     
     return self;
+})
+
+.service('Categorias', function(Storage, lodash)
+{
+    var self = this;
+    
+    var defaultData = [{id: 1, description: 'Categoria 1'}, {id: 2, description: 'Categoria 2'}];
+    
+    var getTable = function()
+    {
+        if(!Storage.has('categories'))
+        {
+            Storage.set('categories', defaultData);
+        }
+        return  Storage.get('categories');
+    };
+    
+    var setTable = function(data)
+    {
+        Storage.set('categories', data);
+    };
+    
+    self.find = function(id, callback)
+    {
+        callback(lodash.find(getTable(), { id: id }));
+    };
+    
+    self.store = function(item, callback)
+    {
+        var category = angular.extend({}, item);
+        var table = getTable();
+        
+        var i = lodash.findIndex(table, { id: category.id });
+        
+        if(table[i])
+        {
+            table[i] = category;
+        }
+        else
+        {
+            var lastElement = lodash.maxBy(table, 'id');
+            var lastId = lastElement ? lastElement.id : 0;
+            category.id = lastId + 1;
+            table.push(category);
+        }
+        
+        setTable(table);
+        callback(category);
+    };
+    
+    self.delete = function(id, callback)
+    {
+        var table = getTable();
+        
+        lodash.remove(table, { id: id });
+        
+        setTable(table);
+        
+        callback();
+    };
+    
+    self.list = function(callback)
+    {
+        return callback(getTable());
+    };
+    
+    self.Resource = function()
+    {
+        var me = this;
+        
+        me.id          = null;
+        me.description = "";
+        
+        return me;
+    };
+    
+    return self;
 });
