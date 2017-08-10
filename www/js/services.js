@@ -6,7 +6,7 @@ angular.module('interact-images.services', [])
     var self = this;
     var imageHeader = 'data:image/jpeg;base64,';
            
-    self.Pick = function(callback, error)
+    self.Pick = function(categoryId, callback, error)
     {
         var options = {
             correctOrientation: true,
@@ -21,7 +21,7 @@ angular.module('interact-images.services', [])
         {
             return self.imageResize(imageURI, 50).then(function(thumbnailURI)
             {
-                callback({ src: imageHeader + imageURI, thumbnail: thumbnailURI, description: '' });
+                callback(new self.Resource(imageHeader + imageURI, thumbnailURI, categoryId));
             });
         });
     };
@@ -55,6 +55,18 @@ angular.module('interact-images.services', [])
 
         // encode image to data-uri with base64 version of compressed image
         return canvas.toDataURL();
+    };
+    
+    self.Resource = function(src, thumbnail, categoryId)
+    {
+        var me = this;
+        
+        me.src         = src;
+        me.thumbnail   = thumbnail;
+        me.description = '';
+        me.category_id = categoryId;
+        
+        return me;
     };
     
     return self;    

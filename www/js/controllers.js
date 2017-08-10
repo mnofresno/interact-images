@@ -50,7 +50,7 @@ angular.module('interact-images.controllers', [])
         });
     };
   
-  loadCategories();
+    loadCategories();
 })
 
 .controller('PlaylistsCtrl', function($scope) {
@@ -68,44 +68,55 @@ angular.module('interact-images.controllers', [])
 {
 })
 
-.controller('BrowseCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup, Storage)
+.controller('AddPicturesCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup, Storage, Categorias)
 {
-    var vm = $scope.vm = { images: [] };
+    var self = this;
     
-    var init = function()
+    self.images = [];
+    self.categories = [];
+    
+    self.init = function()
     {
         if(Storage.has('images'))
         {
-            vm.images = Storage.get('images');
+            self.images = Storage.get('images');
         }
         else
         {
-            Storage.set('images', vm.images);
+            Storage.set('images', self.images);
         }
-    };
-    
-    vm.getImages = function()
-    {
-        ImagePicker.Pick(function(d)
+        
+        Categorias.list(function(d)
         {
-            d.selected = false;
-            vm.images.push(d);
+            self.categories = d;
         });
     };
     
-    vm.remove = function(i)
+    self.getImages = function(categoryId)
     {
-        vm.images.splice(i, 1);
+        ImagePicker.Pick(categoryId, function(d)
+        {
+            d.selected = false;
+            Categorias.find(categoryId, function(c)
+            {
+                d.category_description = c.description;
+                self.images.push(d);
+            });
+        });
     };
     
-    vm.show = function(i)
+    self.remove = function(i)
     {
-        var image = vm.images[i];
+        self.images.splice(i, 1);
+    };
+    
+    self.show = function(i)
+    {
+        var image = self.images[i];
         $ionicPopup.show({
             template: '<img width="100%" height="100%" src="' + image.src + '">',
             title: '',
             subTitle: '',
-            scope: $scope,
             buttons: [
               {
                 text: '<b>Cerrar</b>',
@@ -116,32 +127,39 @@ angular.module('interact-images.controllers', [])
         });
     };
     
-    vm.save = function()
+    self.save = function()
     {
-        Storage.set('images', vm.images);
+        Storage.set('images', self.images);
     };
     
-    vm.editDescription = function(i)
+    self.editDescription = function(i)
     {
-        vm.currentDescription = '';
+        $scope.vm = { currentDescription: '' };
         $ionicPopup.show({
             template: '<input type="text" ng-model="vm.currentDescription" autofocus/>',
             title: 'Descripción',
             subTitle: '¿Qué es ésta imagen?',
             scope: $scope,
             buttons: [
-              {
-                text: '<b>Aceptar</b>',
-                type: 'button-positive',
-                onTap: function(e) {
-                    vm.images[i].description = vm.currentDescription;
+                {
+                    text: '<b>Aceptar</b>',
+                    type: 'button-positive',
+                    onTap: function(e)
+                    {
+                        self.images[i].description = $scope.vm.currentDescription;
+                    }
+                },
+                {
+                    text: '<b>Cerrar</b>',
+                    type: 'button-positive'
                 }
-              }
             ]
         });
     };
     
-    init();
+    self.init();
+    
+    return self;
 })
 
 .controller('CategoriesCtrl', function(Categorias)

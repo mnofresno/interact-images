@@ -1,0 +1,49 @@
+<ion-view view-title="Carga de imágenes">
+    <ion-content has-footer="true">    
+        <div class="row">
+            <div class="col text-center">
+                AGREGAR
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col" style="display: inline-block;" ng-repeat="category in addpics.categories track by category.id">
+                        <button class="button button-positive" ng-click="addpics.getImages(category.id)">{{ category.description }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list">
+                    <div class="item" ng-repeat="image in addpics.images" ng-click="addpics.editDescription($index)">
+                        <div class="row">
+                            <div class="col col-25">
+                                <img class="rounded" ng-click="addpics.show($index); $event.stopPropagation();" width="50" height="50" ng-src="{{ image.thumbnail }}">
+                            </div>
+                            <div class="col col-25" style="margin-top: 5%;">
+                                <span><strong>D: </strong>{{ image.description.length > 0 ? image.description : '-' }}</span>
+                            </div>
+                            <div class="col col-25" style="margin-top: 5%;">
+                                <span><strong>C: </strong>{{ image.category_description }}</span>
+                            </div>
+                            <div class="col col-25">
+                                <button class="button rounded" ng-click="addpics.remove($index); $event.stopPropagation();">
+                                    <i class="ion-trash-a"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button class="small button button-positive" ng-click="addpics.save()">
+                    Guardar <i class="ion-ios-download"></i>
+                </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

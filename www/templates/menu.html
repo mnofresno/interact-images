@@ -1,18 +1,18 @@
 <ion-content>
   <ion-list>
-    <ion-item menu-close href="#/app/browse">
+    <ion-item menu-toggle ui-sref="app.addpictures">
       Cargar im&aacute;genes
     </ion-item>
     <ion-item class="item-divider">
-        Categor&iacute;as
+        <span class="italic-bold">Categor&iacute;as</span>
     </ion-item>
-    <ion-item ng-repeat="categoria in categorias" menu-close href="#/app/categories">
+    <ion-item menu-toggle ng-repeat="categoria in categorias">
       &nbsp;&nbsp;&nbsp;{{ categoria.description }}
     </ion-item>
     <ion-item class="item-divider">
         Configuraci&oacute;n
     </ion-item>
-    <ion-item menu-close href="#/app/categories">
+    <ion-item menu-toggle ui-sref="app.categories">
       Administrar Categor&iacute;as
     </ion-item>
   </ion-list>

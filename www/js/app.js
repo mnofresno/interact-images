@@ -42,12 +42,14 @@ angular.module('interact-images', ['ionic', 'ngCordova', 'ngLodash', 'LocalStora
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
+  .state('app.addpictures', {
+      url: '/addpictures',
+      cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html',
-          controller: 'BrowseCtrl'
+          templateUrl: 'templates/addpictures.html',
+          controller: 'AddPicturesCtrl',
+          controllerAs: 'addpics'
         }
       }
     })
@@ -81,6 +83,7 @@ angular.module('interact-images', ['ionic', 'ngCordova', 'ngLodash', 'LocalStora
   
   .state('app.categories', {
     url: '/categories',
+    cache: false,
     views: {
         'menuContent':{
             templateUrl: 'templates/categories.html',
