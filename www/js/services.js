@@ -88,7 +88,7 @@ angular.module('interact-images.services', [])
 {
     var self = this;
     
-    var defaultData = [{id: 1, description: 'Categoria 1'}, {id: 2, description: 'Categoria 2'}];
+    var defaultData = [{id: 1, description: 'Lugares'}, {id: 2, description: 'Acciones'}];
     
     var getTable = function()
     {
