@@ -185,5 +185,10 @@ angular.module('interact-images.controllers', [])
         self.editingItem = null;
     };
    
+    self.isEditing = function()
+    {
+        return self.editingItem !== null;
+    };
+    
     return self;
 });
