@@ -1,12 +1,14 @@
 # interact-images
 
+* Introducción
+
 Esta APP permite la comunicación de personas que carecen del habla, mostrando una lista de imágenes que representan acciones o lugares a los que ir.
 
 Las mismas seran seleccionables mediante un click.
 
-*Read this in [English](README.en.md)
+* Read this in [English](README.en.md)
 
-Para instalar el entorno de desarrollo:
+* Para instalar el entorno de desarrollo:
 
 ```bash
 npm install
@@ -15,13 +17,13 @@ ionic setup sass
 ionic state restore
 ```
 
-Para correr la APP en servidor local:
+* Para correr la APP en servidor local:
 
 ```
 ionic serve
 ```
 
-Para generar el APK:
+* Para generar el APK:
 
 ```bash
 ionic build android
