@@ -124,7 +124,7 @@ angular.module('interact-images.services', [])
     
     self.findWhere = function(item, callback)
     {
-        callback(lodash.find(getTable(), item));
+        callback(lodash.filter(getTable(), item));
     };
 
     self.store = function(item, callback)
