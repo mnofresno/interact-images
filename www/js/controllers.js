@@ -101,6 +101,7 @@ angular.module('interact-images.controllers', [])
             {
                 d.category_description = c.description;
                 self.images.push(d);
+                self.save();
             });
         });
     };
@@ -108,6 +109,7 @@ angular.module('interact-images.controllers', [])
     self.remove = function(i)
     {
         self.images.splice(i, 1);
+        self.save();
     };
     
     self.show = function(i)
@@ -147,6 +149,7 @@ angular.module('interact-images.controllers', [])
                     onTap: function(e)
                     {
                         self.images[i].description = $scope.vm.currentDescription;
+                        self.save();
                     }
                 },
                 {
