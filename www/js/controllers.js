@@ -1,6 +1,6 @@
 angular.module('interact-images.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, Categorias) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, Categorias, Images) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -47,6 +47,15 @@ angular.module('interact-images.controllers', [])
         Categorias.list(function(d)
         {
             $scope.categorias = d;
+            if (angular.isArray(d))
+            {
+                for (var i in d)
+                {
+                    Images.findWhere({category_id: d[i].id}, function (pictures){
+                        $scope.categorias[i].image_counter = pictures.length;
+                    });
+                }
+            }               
         });
     };
 
