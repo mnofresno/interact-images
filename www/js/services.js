@@ -256,4 +256,28 @@ angular.module('interact-images.services', [])
     };
     
     return self;
-});
+})
+
+// EventService para agregar capacidad de emitir o recibir eventos a cualquier Servicio o Factory
+.factory('EventsService', ['$rootScope', '$log', function($rootScope, $log) {
+    var msgBus = {};
+    msgBus.emit = function(msg, data) {
+        data = data || {};
+        msgBus.log(msg, data);
+        $rootScope.$emit(msg, data);
+    };
+    msgBus.on = function(msg, func, scope) {
+        var unbind = $rootScope.$on(msg, func);
+        if (scope) {
+            scope.$on('$destroy', unbind);
+        }
+    };
+    msgBus.log = function(message, data) {
+        if ($rootScope.LocaliaConfig && !$rootScope.LocaliaConfig.debug)
+            return;
+        if (angular.isObject(message))
+            message = JSON.stringify(message);
+        $log.log("[EventService]: " + message);
+    };
+    return msgBus;
+}]);
