@@ -41,7 +41,7 @@ angular.module('interact-images.controllers', [])
   };
   
     $scope.categorias = [];
-    
+
     var loadCategories = function()
     {
         Categorias.list(function(d)
@@ -49,7 +49,7 @@ angular.module('interact-images.controllers', [])
             $scope.categorias = d;
         });
     };
-  
+
     loadCategories();
 })
 
@@ -223,5 +223,47 @@ angular.module('interact-images.controllers', [])
         return self.editingItem !== null;
     };
     
+    return self;
+})
+
+.controller('PicturesCtrl', function($stateParams, $scope, Categorias, Images, $ionicPopup)
+{
+    var self = this;
+
+    $scope.show = function(i)
+    {
+        var image = $scope.images[i];
+        $ionicPopup.show({
+            template: '<img width="100%" height="100%" src="' + image.src + '">',
+            title: '',
+            subTitle: '',
+            buttons: [
+              {
+                text: '<b>Cerrar</b>',
+                type: 'button-positive',
+                onTap: function(e) {}
+              }
+            ]
+        });
+    };
+
+    self.init = function()
+    {
+        if (angular.isDefined($stateParams.categoryId)) 
+        {        
+            $stateParams.categoryId = Number($stateParams.categoryId);
+            Categorias.find($stateParams.categoryId, function (category){
+                if (angular.isDefined(category))
+                    $scope.category = category;
+            });
+            Images.findWhere({category_id: $stateParams.categoryId}, function (pictures){
+                if (angular.isDefined(pictures))
+                    $scope.images = pictures;
+            });
+        }
+    };
+    
+    self.init();
+
     return self;
 });

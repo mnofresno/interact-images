@@ -1,1 +1,12 @@
 /* Empty. Add your own CSS if you like */
+.picture-gallery .item-image {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.picture-gallery .item-image .dummy {
+	width: 120%;
+	height: auto;
+	display: inline-block;
+	opacity: 0;
+}

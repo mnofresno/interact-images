@@ -1,16 +1,16 @@
 <ion-content>
   <ion-list>
-    <ion-item menu-toggle ui-sref="app.addpictures">
-      Cargar im&aacute;genes
-    </ion-item>
     <ion-item class="item-divider">
         <span class="italic-bold">Categor&iacute;as</span>
     </ion-item>
-    <ion-item menu-toggle ng-repeat="categoria in categorias">
+    <ion-item menu-toggle ng-repeat="categoria in categorias" ui-sref="app.pictures({categoryId: categoria.id})">
       &nbsp;&nbsp;&nbsp;{{ categoria.description }}
     </ion-item>
     <ion-item class="item-divider">
         Configuraci&oacute;n
+    </ion-item>
+    <ion-item menu-toggle ui-sref="app.addpictures">
+      Cargar im&aacute;genes
     </ion-item>
     <ion-item menu-toggle ui-sref="app.categories">
       Administrar Categor&iacute;as
