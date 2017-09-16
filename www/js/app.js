@@ -27,22 +27,24 @@ angular.module('interact-images', ['ionic', 'ngCordova', 'ngLodash', 'LocalStora
   localStorageServiceProvider.setPrefix('interact-images');
   $stateProvider
     .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/layout.html',
-    controller: 'AppCtrl'
-  })
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/layout.html',
+      controller: 'AppCtrl'
+    })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
+    .state('app.home', {
+      url: '/home',
+      parent: 'app',
+      cache: false,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/home.html'    
+        }
       }
-    }
-  })
+    })
 
-  .state('app.addpictures', {
+    .state('app.addpictures', {
       url: '/addpictures',
       cache: false,
       views: {
@@ -53,57 +55,30 @@ angular.module('interact-images', ['ionic', 'ngCordova', 'ngLodash', 'LocalStora
         }
       }
     })
-    .state('app.home', {
-      url: '/home',
+   
+    .state('app.categories', {
+      url: '/categories',
+      cache: false,
       views: {
-        'menuContent': {
-          templateUrl: 'templates/home.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
+          'menuContent':{
+              templateUrl: 'templates/categories.html',
+              controller: 'CategoriesCtrl',
+              controllerAs: 'categories'
+          }
       }
     })
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+    .state('app.pictures', {
+      url: '/pictures/:categoryId',
+      cache: false,
+      views: {
+          'menuContent':{
+              templateUrl: 'templates/pictures.html',
+              controller: 'PicturesCtrl',
+              controllerAs: 'pictures'
+          }
       }
-    }
-  })
-  
-  .state('app.categories', {
-    url: '/categories',
-    cache: false,
-    views: {
-        'menuContent':{
-            templateUrl: 'templates/categories.html',
-            controller: 'CategoriesCtrl',
-            controllerAs: 'categories'
-        }
-    }
-  })
-
-  .state('app.pictures', {
-    url: '/pictures/:categoryId',
-    cache: false,
-    views: {
-        'menuContent':{
-            templateUrl: 'templates/pictures.html',
-            controller: 'PicturesCtrl',
-            controllerAs: 'pictures'
-        }
-    }
-  });
+    });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
