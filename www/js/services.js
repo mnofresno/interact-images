@@ -1,6 +1,6 @@
 angular.module('interact-images.services', [])
 
-.service('ImagePicker', function($cordovaCamera, $q, $window)
+.service('ImagePicker', function($cordovaCamera, $q, $window, Images)
 {
     var errorMessage = "ERROR: Image picker not found";
     var self = this;
@@ -21,7 +21,7 @@ angular.module('interact-images.services', [])
         {
             return self.imageResize(imageURI, 50).then(function(thumbnailURI)
             {
-                callback(new self.Resource(imageHeader + imageURI, thumbnailURI, categoryId));
+                callback(new Images.Resource(imageHeader + imageURI, thumbnailURI, categoryId));
             });
         });
     };
@@ -57,7 +57,7 @@ angular.module('interact-images.services', [])
         return canvas.toDataURL();
     };
     
-    self.Resource = function(src, thumbnail, categoryId)
+    /*self.Resource = function(src, thumbnail, categoryId)
     {
         var me = this;
         
@@ -68,6 +68,7 @@ angular.module('interact-images.services', [])
         
         return me;
     };
+    */
     
     return self;    
 })
@@ -93,6 +94,90 @@ angular.module('interact-images.services', [])
         return data !== null && data !== undefined;
     };
     
+    return self;
+})
+
+.service('Images', function(Storage, lodash)
+{
+    var self = this;
+    
+    var defaultData = [];
+
+    var getTable = function()
+    {
+        if(!Storage.has('images'))
+        {
+            Storage.set('images', defaultData);
+        }
+        return  Storage.get('images');
+    };
+
+    var setTable = function(data)
+    {
+        Storage.set('images', data);
+    };
+
+    self.find = function(id, callback)
+    {
+        callback(lodash.find(getTable(), { id: id }));
+    };
+    
+    self.findWhere = function(item, callback)
+    {
+        callback(lodash.filter(getTable(), item));
+    };
+
+    self.store = function(item, callback)
+    {
+        var image = angular.extend({}, item);
+        var table = getTable();
+        
+        var i = lodash.findIndex(table, { id: image.id });
+        
+        if(table[i])
+        {
+            table[i] = image;
+        }
+        else
+        {
+            var lastElement = lodash.maxBy(table, 'id');
+            var lastId = lastElement ? lastElement.id : 0;
+            image.id = lastId + 1;
+            table.push(image);
+        }
+        
+        setTable(table);
+        callback(image);
+    };
+    
+    self.delete = function(id, callback)
+    {
+        var table = getTable();
+        
+        lodash.remove(table, { id: id });
+        
+        setTable(table);
+        
+        callback();
+    };
+    
+    self.list = function(callback)
+    {
+        return callback(getTable());
+    };
+    
+    self.Resource = function(src, thumbnail, categoryId)
+    {
+        var me = this;
+        
+        me.src         = src;
+        me.thumbnail   = thumbnail;
+        me.description = '';
+        me.category_id = categoryId;
+        
+        return me;
+    };
+
     return self;
 })
 
@@ -171,4 +256,28 @@ angular.module('interact-images.services', [])
     };
     
     return self;
-});
+})
+
+// EventService para agregar capacidad de emitir o recibir eventos a cualquier Servicio o Factory
+.factory('EventsService', ['$rootScope', '$log', function($rootScope, $log) {
+    var msgBus = {};
+    msgBus.emit = function(msg, data) {
+        data = data || {};
+        msgBus.log(msg, data);
+        $rootScope.$emit(msg, data);
+    };
+    msgBus.on = function(msg, func, scope) {
+        var unbind = $rootScope.$on(msg, func);
+        if (scope) {
+            scope.$on('$destroy', unbind);
+        }
+    };
+    msgBus.log = function(message, data) {
+        if ($rootScope.LocaliaConfig && !$rootScope.LocaliaConfig.debug)
+            return;
+        if (angular.isObject(message))
+            message = JSON.stringify(message);
+        $log.log("[EventService]: " + message);
+    };
+    return msgBus;
+}]);

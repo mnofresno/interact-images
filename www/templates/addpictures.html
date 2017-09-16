@@ -8,8 +8,8 @@
         <div class="row">
             <div class="col text-center">
                 <div class="row">
-                    <div class="col" style="display: inline-block;" ng-repeat="category in addpics.categories track by category.id">
-                        <button class="button button-positive" ng-click="addpics.getImages(category.id)">{{ category.description }}</button>
+                    <div class="col">
+                        <button class="button button-positive" ng-repeat="category in addpics.categories track by category.id" ng-click="addpics.getImages(category.id)" style="margin: 5px">{{ category.description }}
                     </div>
                 </div>
             </div>
@@ -36,13 +36,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center">
-                <button class="small button button-positive" ng-click="addpics.save()">
-                    Guardar <i class="ion-ios-download"></i>
-                </button>
             </div>
         </div>
     </ion-content>

@@ -10,5 +10,10 @@
     "!www/lib/**/*",
     "!www/**/*.map",
     "scss/**/*"
-  ]
+  ],
+  "integrations": {
+    "gulp": {},
+    "cordova": {}
+  },
+  "type": "ionic1"
 }

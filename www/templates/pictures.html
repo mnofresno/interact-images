@@ -1,0 +1,28 @@
+<ion-view view-title="Pictures of {{category.description}}">
+  <ion-content>
+
+        <div class="row picture-gallery" ng-repeat="image in images track by $index" ng-if="$index%2==0" >
+            <div class="col-50" ng-if="(images[$index] != null)">          
+                <div class="list card" ng-click="show($index); $event.stopPropagation();">
+                     <div class="item item-image" back-img="{{ images[$index].src }}">
+                        <img src="img/dummy.png" class="dummy">
+                    </div>                        
+                    <div class="item" ng-if="images[$index].description">
+                        <h2>{{images[$index].description}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-50" ng-if="(images[$index+1] != null)">                      
+                <div class="list card" ng-click="show($index+1); $event.stopPropagation();">
+                     <div class="item item-image" back-img="{{ images[$index+1].src }}">
+                        <img src="img/dummy.png" class="dummy">
+                    </div>                        
+                    <div class="item" ng-if="images[$index+1].description">
+                        <h2>{{images[$index+1].description}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+  </ion-content>
+</ion-view>

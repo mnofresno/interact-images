@@ -1,74 +1,70 @@
 angular.module('interact-images.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, Categorias) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, EventsService, Categorias, Images) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+      // With the new view caching in Ionic, Controllers are only called
+      // when they are recreated or on app start, instead of every page change.
+      // To listen for when this page is active (for example, to refresh data),
+      // listen for the $ionicView.enter event:
+      //$scope.$on('$ionicView.enter', function(e) {
+      //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
+      // Form data for the login modal
+      $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+      // Create the login modal that we will use later
+      $ionicModal.fromTemplateUrl('templates/login.html', {
+        scope: $scope
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
+      // Triggered in the login modal to close it
+      $scope.closeLogin = function() {
+        $scope.modal.hide();
+      };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+      // Open the login modal
+      $scope.login = function() {
+        $scope.modal.show();
+      };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+      // Perform the login action when the user submits the login form
+      $scope.doLogin = function() {
+        console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+        // Simulate a login delay. Remove this and replace with your login
+        // code if using a login system
+        $timeout(function() {
+          $scope.closeLogin();
+        }, 1000);
+      };
   
     $scope.categorias = [];
-    
+
     var loadCategories = function()
     {
         Categorias.list(function(d)
         {
             $scope.categorias = d;
+            if (angular.isArray(d))
+            {
+                for (var i in d)
+                {
+                    Images.findWhere({category_id: d[i].id}, function (pictures){
+                        $scope.categorias[i].image_counter = pictures.length;
+                    });
+                }
+            }               
         });
     };
-  
+    EventsService.on("Images.save", function (data){
+        loadCategories();    
+    });
     loadCategories();
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams, ImagePicker)
-{
-})
-
-.controller('AddPicturesCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup, Storage, Categorias)
+.controller('AddPicturesCtrl', function($scope, $stateParams, ImagePicker, lodash, $ionicPopup, EventsService, Storage, Categorias)
 {
     var self = this;
     
@@ -101,6 +97,7 @@ angular.module('interact-images.controllers', [])
             {
                 d.category_description = c.description;
                 self.images.push(d);
+                self.save();
             });
         });
     };
@@ -108,6 +105,7 @@ angular.module('interact-images.controllers', [])
     self.remove = function(i)
     {
         self.images.splice(i, 1);
+        self.save();
     };
     
     self.show = function(i)
@@ -130,6 +128,7 @@ angular.module('interact-images.controllers', [])
     self.save = function()
     {
         Storage.set('images', self.images);
+        EventsService.emit("Images.save", self.images);
     };
     
     self.editDescription = function(i)
@@ -147,6 +146,7 @@ angular.module('interact-images.controllers', [])
                     onTap: function(e)
                     {
                         self.images[i].description = $scope.vm.currentDescription;
+                        self.save();
                     }
                 },
                 {
@@ -220,5 +220,47 @@ angular.module('interact-images.controllers', [])
         return self.editingItem !== null;
     };
     
+    return self;
+})
+
+.controller('PicturesCtrl', function($stateParams, $scope, Categorias, Images, $ionicPopup)
+{
+    var self = this;
+
+    $scope.show = function(i)
+    {
+        var image = $scope.images[i];
+        $ionicPopup.show({
+            template: '<img width="100%" height="100%" src="' + image.src + '">',
+            title: '',
+            subTitle: '',
+            buttons: [
+              {
+                text: '<b>Cerrar</b>',
+                type: 'button-positive',
+                onTap: function(e) {}
+              }
+            ]
+        });
+    };
+
+    self.init = function()
+    {
+        if (angular.isDefined($stateParams.categoryId)) 
+        {        
+            $stateParams.categoryId = Number($stateParams.categoryId);
+            Categorias.find($stateParams.categoryId, function (category){
+                if (angular.isDefined(category))
+                    $scope.category = category;
+            });
+            Images.findWhere({category_id: $stateParams.categoryId}, function (pictures){
+                if (angular.isDefined(pictures))
+                    $scope.images = pictures;
+            });
+        }
+    };
+    
+    self.init();
+
     return self;
 });
