@@ -4,7 +4,7 @@
         <span class="italic-bold">Categor&iacute;as</span>
     </ion-item>
     <ion-item menu-toggle ng-repeat="categoria in categorias" ui-sref="app.pictures({categoryId: categoria.id})">
-      &nbsp;&nbsp;&nbsp;{{ categoria.description }} ({{categoria.image_counter}})
+      &nbsp;&nbsp;&nbsp;{{ categoria.description }} <span class="badge badge-positive">{{categoria.image_counter}}</span>
     </ion-item>
     <ion-item class="item-divider">
         Configuraci&oacute;n

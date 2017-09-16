@@ -10,3 +10,26 @@
 	display: inline-block;
 	opacity: 0;
 }
+
+.category-grid .col .category{
+	display: flex;
+	padding: 10px;
+	background-color: rgba(0,0,0,.05);
+	border-radius: 10px;
+	width: 100%;	
+	justify-content: center;
+	min-height: 120px;
+}
+.category-grid .col .category h3{
+	color: #666;
+	text-align: center;
+	text-shadow: 1px 1px 0 rgba(255,255,255,.6); 
+	align-self: center;
+	display: flex;
+	margin: 0;
+}
+.category-grid .col .category .badge{
+	align-self: center;
+	display: flex;	
+	margin: 0 5px;
+}
