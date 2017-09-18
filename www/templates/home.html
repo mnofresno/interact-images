@@ -1,10 +1,10 @@
 <ion-view view-title="Home">
   <ion-content class="category-grid">
     <div class="row" ng-repeat="category in categorias track by $index" ng-if="$index%2==0">
-    	<div class="col col-50 padding" ng-if="(categorias[$index] != null)" ui-sref="app.pictures({categoryId: categorias[$index].id})">
+    	<div class="col col-50 padding" ng-if="(categorias[$index] != null && categorias[$index].image_counter > 0)" ui-sref="app.pictures({categoryId: categorias[$index].id})">
     		<div class="category"><h3 class="text-center">{{categorias[$index].description}}</h3><span class="badge badge-positive">{{categorias[$index].image_counter}}</span></div>
     	</div>
-    	<div class="col col-50 padding" ng-if="(categorias[$index+1] != null)" ui-sref="app.pictures({categoryId: categorias[$index+1].id})">
+    	<div class="col col-50 padding" ng-if="(categorias[$index+1] != null && categorias[$index+1].image_counter > 0)" ui-sref="app.pictures({categoryId: categorias[$index+1].id})">
     		<div class="category"><h3 class="text-center">{{categorias[$index+1].description}}</h3><span class="badge badge-positive">{{categorias[$index+1].image_counter}}</span></div>
     	</div>
     </div>
