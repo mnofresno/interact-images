@@ -27,3 +27,9 @@ ionic serve
 ```bash
 ionic build android
 ```
+
+# Collaborators
+
+ Pull requests are welcome
+
+Special thanks to <a href="https://github.com/leocreo" target="_blank">@leocreo</a> who helped me to finish the app which I never had time to finish.
