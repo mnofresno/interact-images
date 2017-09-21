@@ -31,4 +31,6 @@ ionic build android
 
 # Colaboradores
 
+ Cambios vía pull request
+
 Agradezco especialmente a <a href="https://github.com/leocreo" target="_blank">@leocreo</a> quién me ayudó a terminar la aplicación que yo no pude terminar por falta de tiempo.
