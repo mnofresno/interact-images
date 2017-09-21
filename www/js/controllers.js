@@ -61,6 +61,9 @@ angular.module('interact-images.controllers', [])
     EventsService.on("Images.save", function (data){
         loadCategories();    
     });
+    EventsService.on("Categorias.save", function (data){
+        loadCategories();    
+    });
     loadCategories();
 })
 
@@ -162,7 +165,7 @@ angular.module('interact-images.controllers', [])
     return self;
 })
 
-.controller('CategoriesCtrl', function(Categorias)
+.controller('CategoriesCtrl', function(Categorias, EventsService)
 {
     var self = this;
     
@@ -198,6 +201,7 @@ angular.module('interact-images.controllers', [])
         {
             self.editingItem = null;
             self.update();
+            EventsService.emit("Categorias.save", self.items);
         });
     };
     
@@ -207,6 +211,7 @@ angular.module('interact-images.controllers', [])
         {
             self.update();
             self.cancel();
+            EventsService.emit("Categorias.save", self.items);
         });
     };
     

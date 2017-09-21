@@ -3,7 +3,7 @@
     <ion-item class="item-divider">
         <span class="italic-bold">Categor&iacute;as</span>
     </ion-item>
-    <ion-item menu-toggle ng-repeat="categoria in categorias" ui-sref="app.pictures({categoryId: categoria.id})">
+    <ion-item menu-toggle ng-repeat="categoria in categorias" ui-sref="app.pictures({categoryId: categoria.id})" ng-if="categoria.image_counter > 0">
       &nbsp;&nbsp;&nbsp;{{ categoria.description }} <span class="badge badge-positive">{{categoria.image_counter}}</span>
     </ion-item>
     <ion-item class="item-divider">
